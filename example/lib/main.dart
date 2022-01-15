@@ -24,10 +24,12 @@ class MyApp extends StatelessWidget {
           onComplete: (index, key) {
             log('onComplete: $index, $key');
             if (index == 4)
-              SystemChrome.setSystemUIOverlayStyle(SystemUiOverlayStyle.light
-                  .copyWith(
-                      statusBarIconBrightness: Brightness.dark,
-                      statusBarColor: Colors.white));
+              SystemChrome.setSystemUIOverlayStyle(
+                SystemUiOverlayStyle.light.copyWith(
+                  statusBarIconBrightness: Brightness.dark,
+                  statusBarColor: Colors.white,
+                ),
+              );
           },
           blurValue: 1,
           builder: Builder(builder: (context) => MailPage()),
@@ -56,10 +58,11 @@ class _MailPageState extends State<MailPage> {
   @override
   void initState() {
     super.initState();
-    //Start showcase view after current widget frames are drawn.
-    WidgetsBinding.instance!.addPostFrameCallback((_) =>
-        ShowCaseWidget.of(context)!
-            .startShowCase([_one, _two, _three, _four, _five]));
+    WidgetsBinding.instance.addPostFrameCallback(
+      (_) => ShowCaseWidget.of(context).startShowCase(
+        [_one, _two, _three, _four, _five],
+      ),
+    );
     mails = [
       Mail(
         sender: 'Medium',
@@ -150,10 +153,13 @@ class _MailPageState extends State<MailPage> {
                         child: Container(
                           padding: const EdgeInsets.all(12),
                           decoration: BoxDecoration(
-                              color: Color(0xffF9F9F9),
-                              border: Border.all(
-                                  color: Color(0xffF3F3F3), width: 2),
-                              borderRadius: BorderRadius.circular(8)),
+                            color: Color(0xffF9F9F9),
+                            border: Border.all(
+                              color: Color(0xffF3F3F3),
+                              width: 2,
+                            ),
+                            borderRadius: BorderRadius.circular(8),
+                          ),
                           child: Row(
                             children: <Widget>[
                               Expanded(
@@ -162,6 +168,7 @@ class _MailPageState extends State<MailPage> {
                                     Showcase(
                                       key: _one,
                                       description: 'Tap to see menu options',
+                                      skip: "SKIP",
                                       child: Icon(
                                         Icons.menu,
                                         color: Theme.of(context).primaryColor,
@@ -173,9 +180,10 @@ class _MailPageState extends State<MailPage> {
                                     Text(
                                       'Search email',
                                       style: TextStyle(
-                                          color: Colors.black45,
-                                          fontSize: 16,
-                                          letterSpacing: 0.4),
+                                        color: Colors.black45,
+                                        fontSize: 16,
+                                        letterSpacing: 0.4,
+                                      ),
                                     ),
                                     Spacer(),
                                     Icon(
@@ -196,6 +204,7 @@ class _MailPageState extends State<MailPage> {
                       title: 'Profile',
                       description:
                           'Tap to see profile which contains user\'s name, profile picture, mobile number and country',
+                      skip: "SKIP",
                       contentPadding: EdgeInsets.all(8.0),
                       showcaseBackgroundColor: Theme.of(context).primaryColor,
                       textColor: Colors.white,
@@ -205,14 +214,15 @@ class _MailPageState extends State<MailPage> {
                         width: 45,
                         height: 45,
                         decoration: BoxDecoration(
-                            shape: BoxShape.circle,
-                            color: Theme.of(context).primaryColor),
+                          shape: BoxShape.circle,
+                          color: Theme.of(context).primaryColor,
+                        ),
                         child: Image.asset('assets/simform.png'),
                       ),
                     ),
                     SizedBox(
                       width: 12,
-                    )
+                    ),
                   ],
                 ),
                 SizedBox(
@@ -231,17 +241,20 @@ class _MailPageState extends State<MailPage> {
                 ),
               ],
             ),
-            Padding(padding: EdgeInsets.only(top: 8)),
+            Padding(
+              padding: EdgeInsets.only(top: 8),
+            ),
             Expanded(
               child: ListView.builder(
-                  physics: BouncingScrollPhysics(),
-                  itemBuilder: (context, index) {
-                    if (index == 0) {
-                      return showcaseMailTile(context);
-                    }
-                    return MailTile(mails[index % mails.length]);
-                  }),
-            )
+                physics: BouncingScrollPhysics(),
+                itemBuilder: (context, index) {
+                  if (index == 0) {
+                    return showcaseMailTile(context);
+                  }
+                  return MailTile(mails[index % mails.length]);
+                },
+              ),
+            ),
           ],
         ),
       ),
@@ -249,13 +262,15 @@ class _MailPageState extends State<MailPage> {
         key: _five,
         title: 'Compose Mail',
         description: 'Click here to compose mail',
+        skip: "SKIP",
         shapeBorder: CircleBorder(),
         child: FloatingActionButton(
           backgroundColor: Theme.of(context).primaryColor,
           onPressed: () {
             setState(() {
-              ShowCaseWidget.of(context)!
-                  .startShowCase([_one, _two, _three, _four, _five]);
+              ShowCaseWidget.of(context).startShowCase(
+                [_one, _two, _three, _four, _five],
+              );
             });
           },
           child: Icon(
@@ -281,6 +296,7 @@ class _MailPageState extends State<MailPage> {
         child: Showcase(
           key: _three,
           description: 'Tap to check mail',
+          skip: "SKIP",
           disposeOnTap: true,
           onTargetClick: () {
             Navigator.push<void>(
@@ -290,13 +306,17 @@ class _MailPageState extends State<MailPage> {
               ),
             ).then((_) {
               setState(() {
-                ShowCaseWidget.of(context)!.startShowCase([_four, _five]);
+                ShowCaseWidget.of(context).startShowCase([_four, _five]);
               });
             });
           },
           child: Container(
-            padding:
-                const EdgeInsets.only(left: 6, right: 16, top: 5, bottom: 5),
+            padding: const EdgeInsets.only(
+              left: 6,
+              right: 16,
+              top: 5,
+              bottom: 5,
+            ),
             color: Color(0xffFFF6F7),
             child: Row(
               crossAxisAlignment: CrossAxisAlignment.start,
@@ -310,7 +330,9 @@ class _MailPageState extends State<MailPage> {
                         height: 50,
                         width: 140,
                         shapeBorder: CircleBorder(),
-                        radius: BorderRadius.all(Radius.circular(150)),
+                        radius: BorderRadius.all(
+                          Radius.circular(150),
+                        ),
                         container: Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: <Widget>[
@@ -363,7 +385,9 @@ class _MailPageState extends State<MailPage> {
                           ),
                         ),
                       ),
-                      Padding(padding: EdgeInsets.only(left: 8)),
+                      Padding(
+                        padding: EdgeInsets.only(left: 8),
+                      ),
                       Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: <Widget>[
@@ -389,7 +413,7 @@ class _MailPageState extends State<MailPage> {
                             ),
                           ),
                         ],
-                      )
+                      ),
                     ],
                   ),
                 ),
@@ -416,7 +440,7 @@ class _MailPageState extends State<MailPage> {
                       Icon(
                         Icons.star,
                         color: Color(0xffFBC800),
-                      )
+                      ),
                     ],
                   ),
                 ),
@@ -437,11 +461,11 @@ class Mail {
   bool isUnread;
 
   Mail({
-    required this.sender,
-    required this.sub,
-    required this.msg,
-    required this.date,
-    required this.isUnread,
+    @required this.sender,
+    @required this.sub,
+    @required this.msg,
+    @required this.date,
+    @required this.isUnread,
   });
 }
 
@@ -453,7 +477,12 @@ class MailTile extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      padding: const EdgeInsets.only(left: 6, right: 16, top: 8, bottom: 8),
+      padding: const EdgeInsets.only(
+        left: 6,
+        right: 16,
+        top: 8,
+        bottom: 8,
+      ),
       color: mail.isUnread ? Color(0xffFFF6F7) : Colors.white,
       child: Row(
         crossAxisAlignment: CrossAxisAlignment.start,
@@ -481,7 +510,9 @@ class MailTile extends StatelessWidget {
                     ),
                   ),
                 ),
-                Padding(padding: EdgeInsets.only(left: 8)),
+                Padding(
+                  padding: EdgeInsets.only(left: 8),
+                ),
                 Expanded(
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
@@ -517,7 +548,7 @@ class MailTile extends StatelessWidget {
                       ),
                     ],
                   ),
-                )
+                ),
               ],
             ),
           ),
