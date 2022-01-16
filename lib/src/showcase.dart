@@ -19,7 +19,7 @@ class Showcase extends StatefulWidget {
   final String title;
   final String description;
   final String skip;
-  final Function skipFunc;
+  final VoidCallback skipFunc;
   final ShapeBorder shapeBorder;
   final BorderRadius radius;
   final TextStyle titleTextStyle;

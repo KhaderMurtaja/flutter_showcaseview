@@ -130,6 +130,10 @@ class _MailPageState extends State<MailPage> {
     ];
   }
 
+  void _skip() {
+    setState(() => print("*-*-*-*-*-*-*-*-*-*-*-*-*-"));
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -169,6 +173,7 @@ class _MailPageState extends State<MailPage> {
                                       key: _one,
                                       description: 'Tap to see menu options',
                                       skip: "SKIP",
+                                      skipFunc: _skip,
                                       child: Icon(
                                         Icons.menu,
                                         color: Theme.of(context).primaryColor,

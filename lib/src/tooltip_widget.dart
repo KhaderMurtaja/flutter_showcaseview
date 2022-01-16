@@ -12,7 +12,7 @@ class ToolTipWidget extends StatefulWidget {
   final String title;
   final String description;
   final String skip;
-  final Function skipFunc;
+  final VoidCallback skipFunc;
   final Animation<double> animationOffset;
   final TextStyle titleTextStyle;
   final TextStyle descTextStyle;
@@ -229,100 +229,106 @@ class _ToolTipWidgetState extends State<ToolTipWidget> {
                         ),
                       ),
                     ),
-                    Padding(
-                      padding: EdgeInsets.only(
-                        top: ToolTipWidget.isArrowUp ? arrowHeight - 1 : 0,
-                        bottom: ToolTipWidget.isArrowUp ? 0 : arrowHeight - 1,
-                      ),
-                      child: ClipRRect(
-                        borderRadius: BorderRadius.circular(8),
-                        child: GestureDetector(
-                          onTap: widget.onTooltipTap,
-                          child: Container(
-                            width: _getTooltipWidth(),
-                            padding: widget.contentPadding,
-                            color: widget.tooltipColor,
-                            child: Column(
-                              crossAxisAlignment: CrossAxisAlignment.center,
-                              children: <Widget>[
-                                Column(
-                                  crossAxisAlignment: widget.title != null
-                                      ? CrossAxisAlignment.start
-                                      : CrossAxisAlignment.center,
+                    Column(
+                      children: [
+                        Padding(
+                          padding: EdgeInsets.only(
+                            top: ToolTipWidget.isArrowUp ? arrowHeight - 1 : 0,
+                            bottom:
+                                ToolTipWidget.isArrowUp ? 0 : arrowHeight - 1,
+                          ),
+                          child: ClipRRect(
+                            borderRadius: BorderRadius.circular(8),
+                            child: GestureDetector(
+                              onTap: widget.onTooltipTap,
+                              child: Container(
+                                width: _getTooltipWidth(),
+                                padding: widget.contentPadding,
+                                color: widget.tooltipColor,
+                                child: Column(
+                                  crossAxisAlignment: CrossAxisAlignment.center,
                                   children: <Widget>[
-                                    widget.title != null
-                                        ? Text(
-                                            widget.title,
-                                            style: widget.titleTextStyle ??
-                                                Theme.of(context)
-                                                    .textTheme
-                                                    .headline6
-                                                    .merge(
-                                                      TextStyle(
-                                                        color: widget.textColor,
-                                                      ),
+                                    Column(
+                                      crossAxisAlignment: widget.title != null
+                                          ? CrossAxisAlignment.start
+                                          : CrossAxisAlignment.center,
+                                      children: <Widget>[
+                                        widget.title != null
+                                            ? Text(
+                                                widget.title,
+                                                style: widget.titleTextStyle ??
+                                                    Theme.of(context)
+                                                        .textTheme
+                                                        .headline6
+                                                        .merge(
+                                                          TextStyle(
+                                                            color: widget
+                                                                .textColor,
+                                                          ),
+                                                        ),
+                                              )
+                                            : SizedBox(),
+                                        Text(
+                                          widget.description,
+                                          style: widget.descTextStyle ??
+                                              Theme.of(context)
+                                                  .textTheme
+                                                  .subtitle2
+                                                  .merge(
+                                                    TextStyle(
+                                                      color: widget.textColor,
                                                     ),
-                                          )
-                                        : SizedBox(),
-                                    Text(
-                                      widget.description,
-                                      style: widget.descTextStyle ??
-                                          Theme.of(context)
-                                              .textTheme
-                                              .subtitle2
-                                              .merge(
-                                                TextStyle(
-                                                  color: widget.textColor,
-                                                ),
-                                              ),
+                                                  ),
+                                        ),
+                                      ],
+                                    ),
+                                    SizedBox(
+                                      height: 5.0,
                                     ),
                                   ],
                                 ),
-                                SizedBox(
-                                  height: 5.0,
-                                ),
-                                InkWell(
-                                  onTap: () => widget.skipFunc,
-                                  child: Container(
-                                    height: 45,
-                                    width: 85,
-                                    margin: EdgeInsets.only(top: 5.0),
-                                    padding: EdgeInsets.symmetric(
-                                      vertical: 5.0,
-                                      horizontal: 5.0,
-                                    ),
-                                    decoration: BoxDecoration(
-                                      borderRadius: BorderRadius.circular(10),
-                                    ),
-                                    child: Center(
-                                      child: Row(
-                                        mainAxisAlignment:
-                                            MainAxisAlignment.spaceEvenly,
-                                        crossAxisAlignment:
-                                            CrossAxisAlignment.center,
-                                        children: [
-                                          Icon(
-                                            Icons.cancel_outlined,
-                                            color: Colors.red,
-                                            size: 30.0,
-                                          ),
-                                          Text(
-                                            widget.skip,
-                                            style: TextStyle(
-                                              fontSize: 16.0,
-                                              fontWeight: FontWeight.w500,
-                                            ),
-                                          ),
-                                        ],
-                                      ),
-                                    ),
-                                  ),
-                                ),
-                              ],
+                              ),
                             ),
                           ),
                         ),
-                      ),
+                        InkWell(
+                          onTap: widget.skipFunc,
+                          child: Container(
+                            height: 45,
+                            width: 85,
+                            margin: EdgeInsets.only(top: 5.0),
+                            padding: EdgeInsets.symmetric(
+                              vertical: 5.0,
+                              horizontal: 5.0,
+                            ),
+                            decoration: BoxDecoration(
+                              color: Colors.white,
+                              borderRadius: BorderRadius.circular(10),
+                            ),
+                            child: Center(
+                              child: Row(
+                                mainAxisAlignment:
+                                    MainAxisAlignment.spaceEvenly,
+                                crossAxisAlignment: CrossAxisAlignment.center,
+                                children: [
+                                  Icon(
+                                    Icons.cancel_outlined,
+                                    color: Colors.red,
+                                    size: 30.0,
+                                  ),
+                                  Text(
+                                    widget.skip,
+                                    style: TextStyle(
+                                      fontSize: 16.0,
+                                      fontWeight: FontWeight.w500,
+                                    ),
+                                  ),
+                                ],
+                              ),
+                            ),
+                          ),
+                        ),
+                      ],
                     ),
                   ],
                 ),
