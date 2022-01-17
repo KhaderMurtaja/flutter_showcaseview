@@ -268,18 +268,21 @@ class _ToolTipWidgetState extends State<ToolTipWidget> {
                                                         ),
                                               )
                                             : SizedBox(),
-                                        Text(
-                                          widget.description,
-                                          style: widget.descTextStyle ??
-                                              Theme.of(context)
-                                                  .textTheme
-                                                  .subtitle2
-                                                  .merge(
-                                                    TextStyle(
-                                                      color: widget.textColor,
-                                                    ),
-                                                  ),
-                                        ),
+                                        widget.description != null
+                                            ? Text(
+                                                widget.description,
+                                                style: widget.descTextStyle ??
+                                                    Theme.of(context)
+                                                        .textTheme
+                                                        .subtitle2
+                                                        .merge(
+                                                          TextStyle(
+                                                            color: widget
+                                                                .textColor,
+                                                          ),
+                                                        ),
+                                              )
+                                            : SizedBox(),
                                       ],
                                     ),
                                     SizedBox(
@@ -317,7 +320,7 @@ class _ToolTipWidgetState extends State<ToolTipWidget> {
                                     size: 30.0,
                                   ),
                                   Text(
-                                    widget.skip,
+                                    widget.skip != null ? widget.skip : "skip",
                                     style: TextStyle(
                                       fontSize: 16.0,
                                       fontWeight: FontWeight.w500,
