@@ -78,61 +78,10 @@ class _MailPageState extends State<MailPage> {
         date: '22 May',
         isUnread: false,
       ),
-      Mail(
-        sender: 'Google',
-        sub: 'Flutter 1.5',
-        msg: 'We have launched Flutter 1.5',
-        date: '20 May',
-        isUnread: true,
-      ),
-      Mail(
-        sender: 'Github',
-        sub: 'Showcase View',
-        msg: 'New star on your showcase view.',
-        date: '21 May ',
-        isUnread: false,
-      ),
-      Mail(
-        sender: 'Simform',
-        sub: 'Credit card Plugin',
-        msg: 'Check out our credit card plugin',
-        date: '19 May',
-        isUnread: true,
-      ),
-      Mail(
-        sender: 'Flutter',
-        sub: 'Flutter is Future',
-        msg: 'Flutter laucnhed for Web',
-        date: '18 Jun',
-        isUnread: true,
-      ),
-      Mail(
-        sender: 'Medium',
-        sub: 'Showcase View',
-        msg: 'Check new showcase View',
-        date: '21 May ',
-        isUnread: false,
-      ),
-      Mail(
-        sender: 'Simform',
-        sub: 'Credit card Plugin',
-        msg: 'Check out our credit card plugin',
-        date: '19 May',
-        isUnread: true,
-      ),
-      Mail(
-        sender: 'Flutter',
-        sub: 'Flutter is Future',
-        msg: 'Flutter laucnhed for Web',
-        date: '18 Jun',
-        isUnread: true,
-      ),
     ];
   }
 
-  void _skip() {
-    setState(() => print("*-*-*-*-*-*-*-*-*-*-*-*-*-"));
-  }
+  void _skip() => setState(() => print("*-*-*-*-*-*-"));
 
   @override
   Widget build(BuildContext context) {
@@ -170,6 +119,7 @@ class _MailPageState extends State<MailPage> {
                                 child: Row(
                                   children: <Widget>[
                                     Showcase(
+                                      context: context,
                                       key: _one,
                                       description: 'Tap to see menu options',
                                       skip: "SKIP",
@@ -204,6 +154,7 @@ class _MailPageState extends State<MailPage> {
                       ),
                     ),
                     Showcase(
+                      context: context,
                       overlayPadding: EdgeInsets.all(5),
                       key: _two,
                       title: 'Profile',
@@ -264,6 +215,7 @@ class _MailPageState extends State<MailPage> {
         ),
       ),
       floatingActionButton: Showcase(
+        context: context,
         key: _five,
         title: 'Compose Mail',
         description: 'Click here to compose mail',
@@ -299,6 +251,7 @@ class _MailPageState extends State<MailPage> {
       child: Container(
         padding: const EdgeInsets.symmetric(vertical: 8),
         child: Showcase(
+          context: context,
           key: _three,
           description: 'Tap to check mail',
           skip: "SKIP",
@@ -331,6 +284,7 @@ class _MailPageState extends State<MailPage> {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: <Widget>[
                       Showcase.withWidget(
+                        context: context,
                         key: _four,
                         height: 50,
                         width: 140,

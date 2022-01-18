@@ -11,8 +11,6 @@ class ToolTipWidget extends StatefulWidget {
   final Size screenSize;
   final String title;
   final String description;
-  final String skip;
-  final VoidCallback skipFunc;
   final Animation<double> animationOffset;
   final TextStyle titleTextStyle;
   final TextStyle descTextStyle;
@@ -32,8 +30,6 @@ class ToolTipWidget extends StatefulWidget {
     this.screenSize,
     this.title,
     this.description,
-    this.skip,
-    this.skipFunc,
     this.animationOffset,
     this.titleTextStyle,
     this.descTextStyle,
@@ -184,53 +180,52 @@ class _ToolTipWidgetState extends State<ToolTipWidget> {
         right: _getRight(),
         child: FractionalTranslation(
           translation: Offset(0.0, contentFractionalOffset as double),
-          child: SlideTransition(
-            position: Tween<Offset>(
-              begin: Offset(0.0, contentFractionalOffset / 10),
-              end: Offset(0.0, 0.100),
-            ).animate(widget.animationOffset),
-            child: Material(
-              color: Colors.transparent,
-              child: Container(
-                padding: EdgeInsets.only(
-                  top: paddingTop - (ToolTipWidget.isArrowUp ? arrowHeight : 0),
-                  bottom: paddingBottom -
-                      (ToolTipWidget.isArrowUp ? 0 : arrowHeight),
-                ),
-                child: Stack(
-                  alignment: ToolTipWidget.isArrowUp
-                      ? Alignment.topLeft
-                      : _getLeft() == null
-                          ? Alignment.bottomRight
-                          : Alignment.bottomLeft,
-                  children: [
-                    Positioned(
-                      left: _getLeft() == null
-                          ? null
-                          : (widget.position.getCenter() -
-                              (arrowWidth / 2) -
-                              (_getLeft() ?? 0)),
-                      right: _getLeft() == null
-                          ? (MediaQuery.of(context).size.width -
-                                  widget.position.getCenter()) -
-                              (_getRight() ?? 0) -
-                              (arrowWidth / 2)
-                          : null,
-                      child: CustomPaint(
-                        painter: _Arrow(
-                          strokeColor: widget.tooltipColor,
-                          strokeWidth: 10,
-                          paintingStyle: PaintingStyle.fill,
-                          isUpArrow: ToolTipWidget.isArrowUp,
-                        ),
-                        child: SizedBox(
-                          height: arrowHeight,
-                          width: arrowWidth,
-                        ),
-                      ),
+          child: Material(
+            color: Colors.transparent,
+            child: Container(
+              height: MediaQuery.of(context).size.height * 0.8,
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  Container(
+                    padding: EdgeInsets.only(
+                      top: paddingTop -
+                          (ToolTipWidget.isArrowUp ? arrowHeight : 0),
+                      bottom: paddingBottom -
+                          (ToolTipWidget.isArrowUp ? 0 : arrowHeight),
                     ),
-                    Column(
+                    child: Stack(
+                      alignment: ToolTipWidget.isArrowUp
+                          ? Alignment.topLeft
+                          : _getLeft() == null
+                              ? Alignment.bottomRight
+                              : Alignment.bottomLeft,
                       children: [
+                        Positioned(
+                          left: _getLeft() == null
+                              ? null
+                              : (widget.position.getCenter() -
+                                  (arrowWidth / 2) -
+                                  (_getLeft() ?? 0)),
+                          right: _getLeft() == null
+                              ? (MediaQuery.of(context).size.width -
+                                      widget.position.getCenter()) -
+                                  (_getRight() ?? 0) -
+                                  (arrowWidth / 2)
+                              : null,
+                          child: CustomPaint(
+                            painter: _Arrow(
+                              strokeColor: widget.tooltipColor,
+                              strokeWidth: 10,
+                              paintingStyle: PaintingStyle.fill,
+                              isUpArrow: ToolTipWidget.isArrowUp,
+                            ),
+                            child: SizedBox(
+                              height: arrowHeight,
+                              width: arrowWidth,
+                            ),
+                          ),
+                        ),
                         Padding(
                           padding: EdgeInsets.only(
                             top: ToolTipWidget.isArrowUp ? arrowHeight - 1 : 0,
@@ -294,47 +289,10 @@ class _ToolTipWidgetState extends State<ToolTipWidget> {
                             ),
                           ),
                         ),
-                        InkWell(
-                          onTap: widget.skipFunc,
-                          child: Container(
-                            height: 45,
-                            width: 85,
-                            margin: EdgeInsets.only(top: 5.0),
-                            padding: EdgeInsets.symmetric(
-                              vertical: 5.0,
-                              horizontal: 5.0,
-                            ),
-                            decoration: BoxDecoration(
-                              color: Colors.white,
-                              borderRadius: BorderRadius.circular(10),
-                            ),
-                            child: Center(
-                              child: Row(
-                                mainAxisAlignment:
-                                    MainAxisAlignment.spaceEvenly,
-                                crossAxisAlignment: CrossAxisAlignment.center,
-                                children: [
-                                  Icon(
-                                    Icons.cancel_outlined,
-                                    color: Colors.red,
-                                    size: 30.0,
-                                  ),
-                                  Text(
-                                    widget.skip != null ? widget.skip : "skip",
-                                    style: TextStyle(
-                                      fontSize: 16.0,
-                                      fontWeight: FontWeight.w500,
-                                    ),
-                                  ),
-                                ],
-                              ),
-                            ),
-                          ),
-                        ),
                       ],
                     ),
-                  ],
-                ),
+                  ),
+                ],
               ),
             ),
           ),

@@ -16,6 +16,7 @@ class Showcase extends StatefulWidget {
   final GlobalKey key;
 
   final Widget child;
+  final BuildContext context;
   final String title;
   final String description;
   final String skip;
@@ -42,6 +43,7 @@ class Showcase extends StatefulWidget {
   final double blurValue;
 
   const Showcase({
+    @required this.context,
     @required this.key,
     @required this.child,
     this.title,
@@ -83,6 +85,7 @@ class Showcase extends StatefulWidget {
             "onTargetClick is required if you're using disposeOnTap");
 
   const Showcase.withWidget({
+    @required this.context,
     @required this.key,
     @required this.child,
     @required this.container,
@@ -243,18 +246,18 @@ class _ShowcaseState extends State<Showcase> with TickerProviderStateMixin {
     return _showShowCase
         ? Stack(
             children: [
-              GestureDetector(
-                onTap: _nextIfAny,
-                child: ClipPath(
-                  clipper: RRectClipper(
-                    area: rectBound,
-                    isCircle: widget.shapeBorder == CircleBorder(),
-                    radius: widget.radius,
-                    overlayPadding: widget.overlayPadding,
-                  ),
-                  child: blur != 0
-                      ? BackdropFilter(
-                          filter: ImageFilter.blur(sigmaX: blur, sigmaY: blur),
+              ClipPath(
+                clipper: RRectClipper(
+                  area: rectBound,
+                  isCircle: widget.shapeBorder == CircleBorder(),
+                  radius: widget.radius,
+                  overlayPadding: widget.overlayPadding,
+                ),
+                child: blur != 0
+                    ? BackdropFilter(
+                        filter: ImageFilter.blur(sigmaX: blur, sigmaY: blur),
+                        child: GestureDetector(
+                          onTap: _nextIfAny,
                           child: Container(
                             width: MediaQuery.of(context).size.width,
                             height: MediaQuery.of(context).size.height,
@@ -262,15 +265,18 @@ class _ShowcaseState extends State<Showcase> with TickerProviderStateMixin {
                               color: widget.overlayColor,
                             ),
                           ),
-                        )
-                      : Container(
+                        ),
+                      )
+                    : GestureDetector(
+                        onTap: _nextIfAny,
+                        child: Container(
                           width: MediaQuery.of(context).size.width,
                           height: MediaQuery.of(context).size.height,
                           decoration: BoxDecoration(
                             color: widget.overlayColor,
                           ),
                         ),
-                ),
+                      ),
               ),
               _TargetWidget(
                 offset: offset,
@@ -284,8 +290,6 @@ class _ShowcaseState extends State<Showcase> with TickerProviderStateMixin {
                 screenSize: screenSize,
                 title: widget.title,
                 description: widget.description,
-                skip: widget.skip,
-                skipFunc: widget.skipFunc,
                 animationOffset: _slideAnimation,
                 titleTextStyle: widget.titleTextStyle,
                 descTextStyle: widget.descTextStyle,
@@ -297,6 +301,41 @@ class _ShowcaseState extends State<Showcase> with TickerProviderStateMixin {
                 contentWidth: widget.width,
                 onTooltipTap: _getOnTooltipTap,
                 contentPadding: widget.contentPadding,
+              ),
+              Stack(
+                children: [
+                  ClipPath(
+                    clipper: RRectClipper(
+                      area: rectBound,
+                      isCircle: widget.shapeBorder == CircleBorder(),
+                      radius: widget.radius,
+                      overlayPadding: widget.overlayPadding,
+                    ),
+                    child: blur != 0
+                        ? GestureDetector(
+                            onTap: _nextIfAny,
+                            child: Opacity(
+                              opacity: 0.0,
+                              child: Container(
+                                width: MediaQuery.of(context).size.width,
+                                height: MediaQuery.of(context).size.height,
+                                color: Colors.blue,
+                              ),
+                            ),
+                          )
+                        : GestureDetector(
+                            onTap: _nextIfAny,
+                            child: Container(
+                              width: MediaQuery.of(context).size.width,
+                              height: MediaQuery.of(context).size.height,
+                            ),
+                          ),
+                  ),
+                  _SkipWidget(
+                    ctx: widget.context,
+                    skip: widget.skip,
+                  ),
+                ],
               ),
             ],
           )
@@ -343,6 +382,65 @@ class _TargetWidget extends StatelessWidget {
                           Radius.circular(8),
                         ),
                       ),
+            ),
+          ),
+        ),
+      ),
+    );
+  }
+}
+
+class _SkipWidget extends StatelessWidget {
+  final BuildContext ctx;
+  final String skip;
+
+  _SkipWidget({
+    Key key,
+    @required this.ctx,
+    @required this.skip,
+  }) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return Positioned(
+      bottom: 20,
+      left: 60,
+      child: FractionalTranslation(
+        translation: const Offset(-0.5, -0.5),
+        child: GestureDetector(
+          onTap: () => ShowCaseWidget.of(ctx).dismiss(),
+          child: Container(
+            height: 45,
+            width: 90,
+            margin: EdgeInsets.only(top: 5.0),
+            padding: EdgeInsets.symmetric(
+              vertical: 5.0,
+              horizontal: 5.0,
+            ),
+            decoration: BoxDecoration(
+              color: Colors.white,
+              borderRadius: BorderRadius.circular(10),
+            ),
+            child: Center(
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                crossAxisAlignment: CrossAxisAlignment.center,
+                children: [
+                  Icon(
+                    Icons.cancel_outlined,
+                    color: Colors.red,
+                    size: 30.0,
+                  ),
+                  Text(
+                    skip != null ? skip : "skip",
+                    style: TextStyle(
+                      fontSize: 16.0,
+                      fontWeight: FontWeight.bold,
+                      decoration: TextDecoration.none,
+                    ),
+                  ),
+                ],
+              ),
             ),
           ),
         ),
