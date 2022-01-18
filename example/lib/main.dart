@@ -123,7 +123,6 @@ class _MailPageState extends State<MailPage> {
                                       key: _one,
                                       description: 'Tap to see menu options',
                                       skip: "SKIP",
-                                      skipFunc: _skip,
                                       child: Icon(
                                         Icons.menu,
                                         color: Theme.of(context).primaryColor,

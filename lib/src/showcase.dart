@@ -20,7 +20,6 @@ class Showcase extends StatefulWidget {
   final String title;
   final String description;
   final String skip;
-  final VoidCallback skipFunc;
   final ShapeBorder shapeBorder;
   final BorderRadius radius;
   final TextStyle titleTextStyle;
@@ -49,7 +48,6 @@ class Showcase extends StatefulWidget {
     this.title,
     @required this.description,
     this.skip,
-    this.skipFunc,
     this.shapeBorder,
     this.overlayColor = Colors.black45,
     this.overlayOpacity = 0.75,
@@ -94,7 +92,6 @@ class Showcase extends StatefulWidget {
     this.title,
     this.description,
     this.skip,
-    this.skipFunc,
     this.shapeBorder,
     this.overlayColor = Colors.black45,
     this.radius,
