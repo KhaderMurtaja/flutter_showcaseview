@@ -20,6 +20,7 @@ class Showcase extends StatefulWidget {
   final String title;
   final String description;
   final String skip;
+  final VoidCallback skipFunction;
   final ShapeBorder shapeBorder;
   final BorderRadius radius;
   final TextStyle titleTextStyle;
@@ -48,6 +49,7 @@ class Showcase extends StatefulWidget {
     this.title,
     @required this.description,
     this.skip,
+    @required this.skipFunction,
     this.shapeBorder,
     this.overlayColor = Colors.black45,
     this.overlayOpacity = 0.75,
@@ -92,6 +94,7 @@ class Showcase extends StatefulWidget {
     this.title,
     this.description,
     this.skip,
+    @required this.skipFunction,
     this.shapeBorder,
     this.overlayColor = Colors.black45,
     this.radius,
@@ -331,6 +334,7 @@ class _ShowcaseState extends State<Showcase> with TickerProviderStateMixin {
                   _SkipWidget(
                     ctx: widget.context,
                     skip: widget.skip,
+                    skipFunction: widget.skipFunction,
                   ),
                 ],
               ),
@@ -390,11 +394,13 @@ class _TargetWidget extends StatelessWidget {
 class _SkipWidget extends StatelessWidget {
   final BuildContext ctx;
   final String skip;
+  final VoidCallback skipFunction;
 
   _SkipWidget({
     Key key,
     @required this.ctx,
     @required this.skip,
+    @required this.skipFunction,
   }) : super(key: key);
 
   @override
@@ -405,7 +411,10 @@ class _SkipWidget extends StatelessWidget {
       child: FractionalTranslation(
         translation: const Offset(-0.5, -0.5),
         child: GestureDetector(
-          onTap: () => ShowCaseWidget.of(ctx).dismiss(),
+          onTap: () {
+            skipFunction();
+            ShowCaseWidget.of(ctx).dismiss();
+          },
           child: Container(
             height: 45,
             width: 90,
