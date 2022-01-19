@@ -81,7 +81,9 @@ class _MailPageState extends State<MailPage> {
     ];
   }
 
-  void _skip() => setState(() => print("*-*-*-*-*-*-"));
+  void _skip() {
+    setState(() => print("*-*-*-*-*-*-"));
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -123,6 +125,7 @@ class _MailPageState extends State<MailPage> {
                                       key: _one,
                                       description: 'Tap to see menu options',
                                       skip: "SKIP",
+                                      skipFunction: () => _skip(),
                                       child: Icon(
                                         Icons.menu,
                                         color: Theme.of(context).primaryColor,
@@ -160,6 +163,7 @@ class _MailPageState extends State<MailPage> {
                       description:
                           'Tap to see profile which contains user\'s name, profile picture, mobile number and country',
                       skip: "SKIP",
+                      skipFunction: () => _skip(),
                       contentPadding: EdgeInsets.all(8.0),
                       showcaseBackgroundColor: Theme.of(context).primaryColor,
                       textColor: Colors.white,
@@ -219,6 +223,7 @@ class _MailPageState extends State<MailPage> {
         title: 'Compose Mail',
         description: 'Click here to compose mail',
         skip: "SKIP",
+        skipFunction: () => _skip(),
         shapeBorder: CircleBorder(),
         child: FloatingActionButton(
           backgroundColor: Theme.of(context).primaryColor,
@@ -254,6 +259,7 @@ class _MailPageState extends State<MailPage> {
           key: _three,
           description: 'Tap to check mail',
           skip: "SKIP",
+          skipFunction: () => _skip(),
           disposeOnTap: true,
           onTargetClick: () {
             Navigator.push<void>(
@@ -285,6 +291,7 @@ class _MailPageState extends State<MailPage> {
                       Showcase.withWidget(
                         context: context,
                         key: _four,
+                        skipFunction: () => _skip(),
                         height: 50,
                         width: 140,
                         shapeBorder: CircleBorder(),
